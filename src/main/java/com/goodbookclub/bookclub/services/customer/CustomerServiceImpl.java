@@ -35,7 +35,10 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public Customer getCustomerById(Integer id) {
 		Customer customer = customerRepository.findById(id).orElse(null);
-		log.info("Customer found: "+ customer);
+		if(customer==null)
+			log.error("Customer doesn't exist with id: "+id);
+		else
+			log.info("Customer found: "+ customer);
 		return customer;
 	}
 
@@ -48,8 +51,13 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	@Transactional
 	public void deleteCustomer(int id) {
-		log.info("Customer deleted: "+customerRepository.findById(id).orElse(null));
-		customerRepository.deleteById(id);
+		Customer customer = customerRepository.findById(id).orElse(null);
+		if(customer==null)
+			log.error("Customer doesn't exist");
+		else {
+			log.info("Customer deleted: "+customer);
+			customerRepository.deleteById(id);
+		}
 	}
 
 }

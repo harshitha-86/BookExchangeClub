@@ -1,5 +1,6 @@
 package com.goodbookclub.bookclub.domains;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
@@ -21,7 +22,12 @@ public class User extends AbstractDomainClass{
 	private boolean enabled;
 	private String role;
 	
-	@OneToOne
+	@OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 	private Customer customer;
+	
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+		customer.setUser(this);
+	}
 
 }

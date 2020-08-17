@@ -1,5 +1,6 @@
 package com.goodbookclub.bookclub.domains;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
@@ -24,9 +25,9 @@ public class Customer extends AbstractDomainClass{
 	private String phoneNumber;
 	
 	@Embedded
-	Address billingAddress =  new Address(); 
+	Address address =  new Address(); 
 	
-	@OneToOne
+	@OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST} )
 	private User user;
 
 }
