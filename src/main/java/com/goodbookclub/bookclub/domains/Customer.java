@@ -29,5 +29,9 @@ public class Customer extends AbstractDomainClass{
 	
 	@OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST} )
 	private User user;
+	
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 }

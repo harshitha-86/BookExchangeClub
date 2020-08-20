@@ -51,10 +51,11 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 		c1.getAddress().setZipcode("502032");
 		
 //		c1.setUser(user1);
-		user1.setCustomer(c1);
-		userService.saveOrUpdateUser(user1);
+//		user1.setCustomer(c1);
+//		userService.saveOrUpdateUser(user1);
 		
-//		customerService.saveOrUpdateCustomer(c1);
+		customerService.saveOrUpdateCustomer(c1);
+		
 		
 		/*User user2 = new User();
 		user2.setUsername("amit2006");
