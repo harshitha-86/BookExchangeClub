@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.goodbookclub.bookclub.domains.Customer;
 import com.goodbookclub.bookclub.repositories.CustomerRepository;
+import com.goodbookclub.bookclub.repositories.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,7 +19,13 @@ import lombok.extern.slf4j.Slf4j;
 public class CustomerServiceImpl implements CustomerService {
 
 	private CustomerRepository customerRepository;
+	private UserRepository userRepository;
 	
+	@Autowired
+	public void setUserRepository(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
+
 	@Autowired
 	public void setCustomerRepository(CustomerRepository customerRepository) {
 		this.customerRepository = customerRepository;
@@ -84,6 +91,7 @@ public class CustomerServiceImpl implements CustomerService {
 			log.error("Customer doesn't exist");
 		else {
 			log.info("Customer deleted: "+customer);
+			userRepository.deleteById(customer.getUser().getId());
 			customerRepository.deleteById(id);
 		}
 	}

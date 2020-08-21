@@ -8,8 +8,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.goodbookclub.bookclub.domains.Customer;
 import com.goodbookclub.bookclub.domains.User;
+import com.goodbookclub.bookclub.repositories.CustomerRepository;
 import com.goodbookclub.bookclub.repositories.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,10 +19,16 @@ import lombok.extern.slf4j.Slf4j;
 public class UserServiceImpl implements UserService {
 	
 	private UserRepository userRepository;
+	private CustomerRepository customerRepository;
 
 	@Autowired
 	public void setUserRepository(UserRepository userRepository) {
 		this.userRepository = userRepository;
+	}
+	
+	@Autowired
+	public void setCustomerRepository(CustomerRepository customerRepository) {
+		this.customerRepository = customerRepository;
 	}
 
 	@Override
@@ -85,6 +91,7 @@ public class UserServiceImpl implements UserService {
 			log.error("User doesn't exist");
 		else {
 			log.info("User deleted: "+user);
+			customerRepository.deleteById(user.getCustomer().getId());
 			userRepository.deleteById(id);
 		}
 	}
