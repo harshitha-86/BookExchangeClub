@@ -5,6 +5,8 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +29,9 @@ public class Customer extends AbstractDomainClass{
 	@Embedded
 	Address address =  new Address(); 
 	
-	@OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST} )
+	@JsonBackReference
+	@OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+	@ToString.Exclude
 	private User user;
 	
 	public void setUser(User user) {

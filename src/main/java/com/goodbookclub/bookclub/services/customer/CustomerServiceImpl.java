@@ -41,11 +41,39 @@ public class CustomerServiceImpl implements CustomerService {
 			log.info("Customer found: "+ customer);
 		return customer;
 	}
+	
+	public Customer updateCustomer(Customer update, Integer id) {
+		Customer customer = customerRepository.findById(id).orElse(null);
+		
+		// update user
+		customer.getUser().setId(update.getUser().getId());
+		customer.getUser().setUsername(update.getUser().getUsername());
+		customer.getUser().setPassword(update.getUser().getPassword());
+		customer.getUser().setEncryptedpassword(update.getUser().getEncryptedpassword());
+		customer.getUser().setRole(update.getUser().getRole());
+		customer.getUser().setEnabled(update.getUser().isEnabled());
+		
+		// update the customer
+		customer.setId(update.getId());
+		customer.setFirstName(update.getFirstName());
+		customer.setLastName(update.getLastName());
+		customer.setEmail(update.getEmail());
+		customer.setPhoneNumber(update.getPhoneNumber());
+		customer.setAddress(update.getAddress());
+		
+		return customer;
+	}
 
 	@Override
 	public Customer saveOrUpdateCustomer(Customer customer) {
-		log.info("Customer saved/updated: "+customer);
-		return customerRepository.save(customer);
+		Customer updatedCustomer = customer;
+		if(customer.getId()!=null) {
+			log.info("Customer updated: "+customer);
+			updatedCustomer = updateCustomer(customer, customer.getId());
+		}else {
+			log.info("Customer saved: "+customer);
+		}
+		return customerRepository.save(updatedCustomer);
 	}
 
 	@Override

@@ -43,10 +43,38 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+	public User updateUser(User update, Integer id) {
+		User user = userRepository.findById(id).orElse(null);
+		
+		// update customer
+		user.getCustomer().setId(update.getCustomer().getId());
+		user.getCustomer().setFirstName(update.getCustomer().getFirstName());
+		user.getCustomer().setLastName(update.getCustomer().getLastName());
+		user.getCustomer().setEmail(update.getCustomer().getEmail());
+		user.getCustomer().setPhoneNumber(update.getCustomer().getPhoneNumber());
+		user.getCustomer().setAddress(update.getCustomer().getAddress());
+		
+		// update the user
+		user.setId(update.getId());
+		user.setUsername(update.getUsername());
+		user.setPassword(update.getPassword());
+		user.setEncryptedpassword(update.getEncryptedpassword());
+		user.setRole(update.getRole());
+		user.setEnabled(update.isEnabled());
+		
+		return user;
+	}
+	
 	@Override
-	public User saveOrUpdateUser(User user) {
-		log.info("User saved/updated: "+user);
-		return userRepository.save(user);
+	public User saveOrUpdateUser(User user) {		
+		User updatedUser = user;
+		if(user.getId()!=null) {
+			log.info("User updated: "+user);
+			updatedUser = updateUser(user, user.getId());
+		}else {
+			log.info("User saved: "+user);
+		}
+		return userRepository.save(updatedUser);
 	}
 
 	@Override
@@ -59,7 +87,6 @@ public class UserServiceImpl implements UserService {
 			log.info("User deleted: "+user);
 			userRepository.deleteById(id);
 		}
-
 	}
 
 }

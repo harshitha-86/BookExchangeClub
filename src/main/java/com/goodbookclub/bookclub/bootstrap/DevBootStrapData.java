@@ -37,6 +37,7 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 		User user1 = new User();
 		user1.setUsername("shashank136");
 		user1.setPassword("Password");
+		user1.setRole("USER");
 		
 		Customer c1 = new Customer();
 		c1.setFirstName("Shashank");
@@ -50,16 +51,13 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 		c1.getAddress().setState("Telangana");
 		c1.getAddress().setZipcode("502032");
 		
-//		c1.setUser(user1);
-//		user1.setCustomer(c1);
-//		userService.saveOrUpdateUser(user1);
+		user1.setCustomer(c1);
+		userService.saveOrUpdateUser(user1);
 		
-		customerService.saveOrUpdateCustomer(c1);
-		
-		
-		/*User user2 = new User();
+		User user2 = new User();
 		user2.setUsername("amit2006");
 		user2.setPassword("Password");
+		user2.setRole("USER");
 		
 		Customer c2 = new Customer();
 		c2.setFirstName("Amit");
@@ -73,13 +71,13 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 		c2.getAddress().setState("Telangana");
 		c2.getAddress().setZipcode("502032");
 		
-//		c2.setUser(user2);
-		
-		customerService.saveOrUpdateCustomer(c2);
+		user2.setCustomer(c2);
+		userService.saveOrUpdateUser(user2);
 		
 		User user3 = new User();
 		user3.setUsername("mohan270766");
 		user3.setPassword("Password");
+		user3.setRole("USER");
 		
 		Customer c3 = new Customer();
 		c3.setFirstName("Mohan");
@@ -93,13 +91,13 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 		c3.getAddress().setState("Telangana");
 		c3.getAddress().setZipcode("502032");
 		
-//		c3.setUser(user3);
-				
-		customerService.saveOrUpdateCustomer(c3);
+		user3.setCustomer(c3);
+		userService.saveOrUpdateUser(user3);
 		
 		User user4 = new User();
 		user4.setUsername("jyothi1410");
 		user4.setPassword("Password");
+		user4.setRole("USER");
 		
 		Customer c4 = new Customer();
 		
@@ -114,9 +112,9 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 		c4.getAddress().setState("Telangana");
 		c4.getAddress().setZipcode("502032");
 		
-//		c4.setUser(user4);
+		user4.setCustomer(c4);
+		userService.saveOrUpdateUser(user4);
 		
-		customerService.saveOrUpdateCustomer(c4);*/
 	}
 
 }

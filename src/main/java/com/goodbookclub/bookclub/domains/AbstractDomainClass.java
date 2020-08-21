@@ -36,10 +36,4 @@ public class AbstractDomainClass implements DomainObject {
         }
     }
 
-//	@Override
-//	public void setId(Integer id) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-
 }
