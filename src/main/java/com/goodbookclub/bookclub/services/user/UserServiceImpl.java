@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.goodbookclub.bookclub.domains.User;
 import com.goodbookclub.bookclub.repositories.CustomerRepository;
 import com.goodbookclub.bookclub.repositories.UserRepository;
+import com.goodbookclub.bookclub.services.security.EncryptionService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +21,12 @@ public class UserServiceImpl implements UserService {
 	
 	private UserRepository userRepository;
 	private CustomerRepository customerRepository;
+	private EncryptionService encryptionService;
+
+	@Autowired
+	public void setEncryptionService(EncryptionService encryptionService) {
+		this.encryptionService = encryptionService;
+	}
 
 	@Autowired
 	public void setUserRepository(UserRepository userRepository) {
@@ -64,7 +71,7 @@ public class UserServiceImpl implements UserService {
 		user.setId(update.getId());
 		user.setUsername(update.getUsername());
 		user.setPassword(update.getPassword());
-		user.setEncryptedpassword(update.getEncryptedpassword());
+		user.setEncryptedpassword(encryptionService.encryptString(update.getPassword()));
 		user.setRole(update.getRole());
 		user.setEnabled(update.isEnabled());
 		
@@ -78,6 +85,7 @@ public class UserServiceImpl implements UserService {
 			log.info("User updated: "+user);
 			updatedUser = updateUser(user, user.getId());
 		}else {
+			user.setEncryptedpassword(encryptionService.encryptString(user.getPassword()));
 			log.info("User saved: "+user);
 		}
 		return userRepository.save(updatedUser);

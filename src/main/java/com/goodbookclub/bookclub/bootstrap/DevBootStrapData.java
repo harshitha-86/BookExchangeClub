@@ -8,23 +8,16 @@ import org.springframework.stereotype.Component;
 import com.goodbookclub.bookclub.domains.Address;
 import com.goodbookclub.bookclub.domains.Customer;
 import com.goodbookclub.bookclub.domains.User;
-import com.goodbookclub.bookclub.services.customer.CustomerService;
 import com.goodbookclub.bookclub.services.user.UserService;
 
 @Component
 public class DevBootStrapData implements ApplicationListener<ContextRefreshedEvent>{
 
-	private CustomerService customerService;
 	private UserService userService;
 	
 	@Autowired
 	public void setUserService(UserService userService) {
 		this.userService = userService;
-	}
-
-	@Autowired
-	public void setCustomerService(CustomerService customerService) {
-		this.customerService = customerService;
 	}
 
 	@Override
