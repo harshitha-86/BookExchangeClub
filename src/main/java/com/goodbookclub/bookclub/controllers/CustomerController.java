@@ -2,6 +2,8 @@ package com.goodbookclub.bookclub.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,12 +37,12 @@ public class CustomerController {
 	}
 	
 	@PostMapping("/customers/new")
-	public Customer addCustomer(@RequestBody Customer customer) {
+	public Customer addCustomer(@Valid @RequestBody Customer customer) {
 		return customerService.saveOrUpdateCustomer(customer);
 	}
 	
 	@PutMapping("/customers/edit/{id}")
-	public Customer updateCustomer(@RequestBody Customer customer) {
+	public Customer updateCustomer(@Valid @RequestBody Customer customer) {
 		return customerService.saveOrUpdateCustomer(customer);
 	}
 	

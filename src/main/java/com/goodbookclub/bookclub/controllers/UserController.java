@@ -2,6 +2,8 @@ package com.goodbookclub.bookclub.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,13 +40,13 @@ public class UserController {
 	}
 	
 	@PostMapping("/users/new")
-	public User addUser(@RequestBody User user) {
+	public User addUser(@Valid @RequestBody User user) {
 		log.info("Creating new User");
 		return userService.saveOrUpdateUser(user);
 	}
 	
 	@PutMapping("/users/edit/{id}")
-	public User updateUser(@RequestBody User user, @PathVariable Integer id) {
+	public User updateUser(@Valid @RequestBody User user, @PathVariable Integer id) {
 		log.info("Updating user with id: "+id+" ...");
 		return userService.saveOrUpdateUser(user);
 	}

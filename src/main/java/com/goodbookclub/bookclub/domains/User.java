@@ -1,9 +1,12 @@
 package com.goodbookclub.bookclub.domains;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -21,11 +24,19 @@ import lombok.ToString;
 @ToString
 public class User extends AbstractDomainClass{
 	
+	@NotEmpty(message = "UserName cannot be Empty")
+	@Size(min = 3, max = 12, message = "UserName should be of size min 3 and max 12")
+	@Column(unique = true)
 	private String username;
+	
 	@Transient
-	private String password;
+	@NotEmpty(message = "Password cannot be Empty")
+	@Size(min = 6, max = 12, message = "Password should be of size min 6 and max 12")
+	private String password; 
 	private String encryptedpassword;
 	private boolean enabled = true;
+	
+	@NotEmpty(message = "Role cannot be Empty")
 	private String role;
 	
 	@JsonManagedReference

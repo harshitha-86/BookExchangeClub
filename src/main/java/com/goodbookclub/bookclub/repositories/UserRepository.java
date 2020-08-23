@@ -6,4 +6,5 @@ import com.goodbookclub.bookclub.domains.User;
 
 public interface UserRepository extends CrudRepository<User, Integer>{
 
+	User findByUsername(String username);
 }
