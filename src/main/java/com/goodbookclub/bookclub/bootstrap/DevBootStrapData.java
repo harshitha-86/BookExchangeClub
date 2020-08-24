@@ -7,14 +7,22 @@ import org.springframework.stereotype.Component;
 
 import com.goodbookclub.bookclub.domains.Address;
 import com.goodbookclub.bookclub.domains.Customer;
+import com.goodbookclub.bookclub.domains.Product;
 import com.goodbookclub.bookclub.domains.User;
+import com.goodbookclub.bookclub.services.product.ProductService;
 import com.goodbookclub.bookclub.services.user.UserService;
 
 @Component
 public class DevBootStrapData implements ApplicationListener<ContextRefreshedEvent>{
 
 	private UserService userService;
+	private ProductService productService;
 	
+	@Autowired
+	public void setProductService(ProductService productService) {
+		this.productService = productService;
+	}
+
 	@Autowired
 	public void setUserService(UserService userService) {
 		this.userService = userService;
@@ -24,6 +32,41 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		// TODO Auto-generated method stub
 		loadCustomers();
+		loadProducts();
+	}
+	
+	public void loadProducts() {
+		
+		Product p1 = new Product();
+		p1.setName("Laptop");
+		p1.setDescription("This is a laptop description");
+		p1.setImgUrl("images/laptop.png");
+		productService.saveOrUpdateProduct(p1);
+		
+		Product p2 = new Product();
+		p2.setName("Table");
+		p2.setDescription("This is a table description");
+		p2.setImgUrl("images/table.png");
+		productService.saveOrUpdateProduct(p2);
+		
+		Product p3 = new Product();
+		p3.setName("Chair");
+		p3.setDescription("This is a chair description");
+		p3.setImgUrl("images/chair.png");
+		productService.saveOrUpdateProduct(p3);
+		
+		Product p4 = new Product();
+		p4.setName("Mobile");
+		p4.setDescription("This is a mobile description");
+		p4.setImgUrl("images/mobile.png");
+		productService.saveOrUpdateProduct(p4);
+		
+		Product p5 = new Product();
+		p5.setName("Shirt");
+		p5.setDescription("This is a shirt description");
+		p5.setImgUrl("images/shirt.png");
+		productService.saveOrUpdateProduct(p5);
+		
 	}
 	
 	public void loadCustomers() {
