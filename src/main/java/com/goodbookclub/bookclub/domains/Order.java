@@ -30,13 +30,25 @@ import lombok.ToString;
 public class Order extends AbstractDomainClass{
 
 	@OneToOne
+	@ToString.Exclude
 	private Customer customer;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "order", orphanRemoval = true)
+	@ToString.Exclude
     private List<OrderDetails> orderDetails = new ArrayList<>();
 	
 	@Embedded
 	private Address shipToAddress;
 	private OrderStatus orderStatus;
 	private Date dateShipped;
+	
+	public void addToOrderDetails(OrderDetails orderDetail){
+        orderDetail.setOrder(this);
+        orderDetails.add(orderDetail);
+    }
+
+    public void removeOrderDetail(OrderDetails orderDetail){
+        orderDetail.setOrder(null);
+        orderDetails.remove(orderDetail);
+    }
 }

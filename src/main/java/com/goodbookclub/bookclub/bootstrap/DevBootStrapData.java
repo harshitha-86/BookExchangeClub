@@ -1,5 +1,8 @@
 package com.goodbookclub.bookclub.bootstrap;
 
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -7,8 +10,12 @@ import org.springframework.stereotype.Component;
 
 import com.goodbookclub.bookclub.domains.Address;
 import com.goodbookclub.bookclub.domains.Customer;
+import com.goodbookclub.bookclub.domains.Order;
+import com.goodbookclub.bookclub.domains.OrderDetails;
 import com.goodbookclub.bookclub.domains.Product;
 import com.goodbookclub.bookclub.domains.User;
+import com.goodbookclub.bookclub.enums.OrderStatus;
+import com.goodbookclub.bookclub.services.order.OrderService;
 import com.goodbookclub.bookclub.services.product.ProductService;
 import com.goodbookclub.bookclub.services.user.UserService;
 
@@ -17,7 +24,13 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 
 	private UserService userService;
 	private ProductService productService;
+	private OrderService orderService;
 	
+	@Autowired
+	public void setOrderService(OrderService orderService) {
+		this.orderService = orderService;
+	}
+
 	@Autowired
 	public void setProductService(ProductService productService) {
 		this.productService = productService;
@@ -33,9 +46,31 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 		// TODO Auto-generated method stub
 		loadCustomers();
 		loadProducts();
+		loadOrderHistory();
 	}
 	
-	public void loadProducts() {
+	private void loadOrderHistory() {
+        List<User> users = (List<User>) userService.listOfUsers();
+        List<Product> products = (List<Product>) productService.listOfProducts();
+
+        users.forEach(user ->{
+            Order order = new Order();
+            order.setCustomer(user.getCustomer());
+            order.setOrderStatus(OrderStatus.SHIPPED);
+            order.setShipToAddress(user.getCustomer().getAddress());
+
+            products.forEach(product -> {
+                OrderDetails orderDetail = new OrderDetails();
+                orderDetail.setProduct(product);
+                orderDetail.setQuantity(1);
+                order.addToOrderDetails(orderDetail);
+            });
+            
+            orderService.saveOrUpdate(order);
+        });
+    }
+	
+	private void loadProducts() {
 		
 		Product p1 = new Product();
 		p1.setName("Laptop");
@@ -69,7 +104,7 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 		
 	}
 	
-	public void loadCustomers() {
+	private void loadCustomers() {
 		User user1 = new User();
 		user1.setUsername("shashank136");
 		user1.setPassword("Password");
