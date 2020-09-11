@@ -1,6 +1,5 @@
 package com.goodbookclub.bookclub.bootstrap;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import com.goodbookclub.bookclub.domains.Address;
+import com.goodbookclub.bookclub.domains.Cart;
+import com.goodbookclub.bookclub.domains.CartDetails;
 import com.goodbookclub.bookclub.domains.Customer;
 import com.goodbookclub.bookclub.domains.Order;
 import com.goodbookclub.bookclub.domains.OrderDetails;
@@ -46,8 +47,25 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 		// TODO Auto-generated method stub
 		loadCustomers();
 		loadProducts();
+		loadCarts();
 		loadOrderHistory();
 	}
+	
+	private void loadCarts() {
+        List<User> users = (List<User>) userService.listOfUsers();
+        List<Product> products = (List<Product>) productService.listOfProducts();
+
+        users.forEach(user -> {
+//            user.setCart(new Cart());
+            CartDetails cartDetail = new CartDetails();
+            cartDetail.setProduct(products.get(0));
+            cartDetail.setQuantity(2);
+            user.getCart().addCartDetail(cartDetail);
+//            user.setPassword("password");
+//            System.out.println(user);
+//            userService.saveOrUpdateUser(user);
+        });
+    }
 	
 	private void loadOrderHistory() {
         List<User> users = (List<User>) userService.listOfUsers();
@@ -108,6 +126,7 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 		User user1 = new User();
 		user1.setUsername("shashank136");
 		user1.setPassword("Password");
+		user1.setCart(new Cart());
 		user1.setRole("USER");
 		
 		Customer c1 = new Customer();
@@ -129,6 +148,7 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 		user2.setUsername("amit2006");
 		user2.setPassword("Password");
 		user2.setRole("USER");
+		user2.setCart(new Cart());
 		
 		Customer c2 = new Customer();
 		c2.setFirstName("Amit");
@@ -148,6 +168,7 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 		User user3 = new User();
 		user3.setUsername("mohan270766");
 		user3.setPassword("Password");
+		user3.setCart(new Cart());
 		user3.setRole("USER");
 		
 		Customer c3 = new Customer();
@@ -168,6 +189,7 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 		User user4 = new User();
 		user4.setUsername("jyothi1410");
 		user4.setPassword("Password");
+		user4.setCart(new Cart());
 		user4.setRole("USER");
 		
 		Customer c4 = new Customer();

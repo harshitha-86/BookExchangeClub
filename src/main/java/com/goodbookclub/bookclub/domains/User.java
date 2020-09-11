@@ -44,6 +44,10 @@ public class User extends AbstractDomainClass{
 	@ToString.Exclude
 	private Customer customer;
 	
+	@ToString.Exclude
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Cart cart;
+	
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 		customer.setUser(this);
