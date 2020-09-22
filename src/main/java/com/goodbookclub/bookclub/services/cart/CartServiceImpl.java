@@ -45,9 +45,9 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public Cart saveOrUpdateCart(Cart cart) {
 		if(cart.getId()==null) {
-			log.info("Cart Saved: "+cart);
+			log.info("Cart id Saved: "+cart.getId());
 		}else {
-			log.info("Cart updated: "+cart);
+			log.info("Cart id updated: "+cart.getId());
 		}
 		return cartRepository.save(cart);
 	}

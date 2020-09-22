@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.goodbookclub.bookclub.domains.User;
+import com.goodbookclub.bookclub.repositories.CartRepository;
 import com.goodbookclub.bookclub.repositories.CustomerRepository;
 import com.goodbookclub.bookclub.repositories.UserRepository;
 import com.goodbookclub.bookclub.services.security.EncryptionService;
@@ -22,6 +23,12 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 	private CustomerRepository customerRepository;
 	private EncryptionService encryptionService;
+	private CartRepository cartRepository;
+
+	@Autowired
+	public void setCartRepository(CartRepository cartRepository) {
+		this.cartRepository = cartRepository;
+	}
 
 	@Autowired
 	public void setEncryptionService(EncryptionService encryptionService) {
@@ -53,7 +60,6 @@ public class UserServiceImpl implements UserService {
 			log.error("User doesn't exist with id: "+Id);
 		else {
 			log.info("User found: "+ user);
-			System.out.println(user.getCart().getCartDetails());
 		}
 		return user;
 	}
@@ -102,6 +108,7 @@ public class UserServiceImpl implements UserService {
 		else {
 			log.info("User deleted: "+user);
 			customerRepository.deleteById(user.getCustomer().getId());
+			cartRepository.delete(user.getCart());
 			userRepository.deleteById(id);
 		}
 	}
