@@ -51,8 +51,10 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.findById(Id).orElse(null);
 		if(user==null)
 			log.error("User doesn't exist with id: "+Id);
-		else
+		else {
 			log.info("User found: "+ user);
+			System.out.println(user.getCart().getCartDetails());
+		}
 		return user;
 	}
 

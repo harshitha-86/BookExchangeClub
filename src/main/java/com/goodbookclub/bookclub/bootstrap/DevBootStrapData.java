@@ -9,13 +9,14 @@ import org.springframework.stereotype.Component;
 
 import com.goodbookclub.bookclub.domains.Address;
 import com.goodbookclub.bookclub.domains.Cart;
-import com.goodbookclub.bookclub.domains.CartDetails;
+import com.goodbookclub.bookclub.domains.CartDetail;
 import com.goodbookclub.bookclub.domains.Customer;
 import com.goodbookclub.bookclub.domains.Order;
 import com.goodbookclub.bookclub.domains.OrderDetails;
 import com.goodbookclub.bookclub.domains.Product;
 import com.goodbookclub.bookclub.domains.User;
 import com.goodbookclub.bookclub.enums.OrderStatus;
+import com.goodbookclub.bookclub.services.cart.CartService;
 import com.goodbookclub.bookclub.services.order.OrderService;
 import com.goodbookclub.bookclub.services.product.ProductService;
 import com.goodbookclub.bookclub.services.user.UserService;
@@ -26,7 +27,13 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 	private UserService userService;
 	private ProductService productService;
 	private OrderService orderService;
+	private CartService cartService;
 	
+	@Autowired
+	public void setCartService(CartService cartService) {
+		this.cartService = cartService;
+	}
+
 	@Autowired
 	public void setOrderService(OrderService orderService) {
 		this.orderService = orderService;
@@ -56,14 +63,16 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
         List<Product> products = (List<Product>) productService.listOfProducts();
 
         users.forEach(user -> {
-//            user.setCart(new Cart());
-            CartDetails cartDetail = new CartDetails();
+        	Cart cart = user.getCart();
+        	cart.setUser(user);
+        	
+            CartDetail cartDetail = new CartDetail();
             cartDetail.setProduct(products.get(0));
             cartDetail.setQuantity(2);
-            user.getCart().addCartDetail(cartDetail);
-//            user.setPassword("password");
-//            System.out.println(user);
-//            userService.saveOrUpdateUser(user);
+            
+            cart.addCartDetail(cartDetail);
+            
+            cartService.saveOrUpdateCart(cart);
         });
     }
 	
@@ -126,7 +135,8 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 		User user1 = new User();
 		user1.setUsername("shashank136");
 		user1.setPassword("Password");
-		user1.setCart(new Cart());
+		Cart cart1 = new Cart();
+		user1.setCart(cart1);
 		user1.setRole("USER");
 		
 		Customer c1 = new Customer();
@@ -143,12 +153,14 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 		
 		user1.setCustomer(c1);
 		userService.saveOrUpdateUser(user1);
+		cartService.saveOrUpdateCart(cart1);
 		
 		User user2 = new User();
 		user2.setUsername("amit2006");
 		user2.setPassword("Password");
+		Cart cart2 = new Cart();
+		user2.setCart(cart2);
 		user2.setRole("USER");
-		user2.setCart(new Cart());
 		
 		Customer c2 = new Customer();
 		c2.setFirstName("Amit");
@@ -164,11 +176,13 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 		
 		user2.setCustomer(c2);
 		userService.saveOrUpdateUser(user2);
+		cartService.saveOrUpdateCart(cart2);
 		
 		User user3 = new User();
 		user3.setUsername("mohan270766");
 		user3.setPassword("Password");
-		user3.setCart(new Cart());
+		Cart cart3 = new Cart();
+		user3.setCart(cart3);
 		user3.setRole("USER");
 		
 		Customer c3 = new Customer();
@@ -185,11 +199,13 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 		
 		user3.setCustomer(c3);
 		userService.saveOrUpdateUser(user3);
+		cartService.saveOrUpdateCart(cart3);
 		
 		User user4 = new User();
 		user4.setUsername("jyothi1410");
 		user4.setPassword("Password");
-		user4.setCart(new Cart());
+		Cart cart4 = new Cart();
+		user4.setCart(cart4);
 		user4.setRole("USER");
 		
 		Customer c4 = new Customer();
@@ -207,6 +223,7 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 		
 		user4.setCustomer(c4);
 		userService.saveOrUpdateUser(user4);
+		cartService.saveOrUpdateCart(cart4);
 		
 	}
 

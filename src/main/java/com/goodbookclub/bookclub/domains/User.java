@@ -45,6 +45,7 @@ public class User extends AbstractDomainClass{
 	private Customer customer;
 	
 	@ToString.Exclude
+	@JsonManagedReference
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Cart cart;
 	
@@ -52,5 +53,9 @@ public class User extends AbstractDomainClass{
 		this.customer = customer;
 		customer.setUser(this);
 	}
-
+	
+	public void setCart(Cart cart) {
+		this.cart = cart;
+		cart.setUser(this);
+	}
 }

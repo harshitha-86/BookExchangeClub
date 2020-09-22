@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,9 +16,10 @@ import lombok.ToString;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 @ToString
-public class CartDetails extends AbstractDomainClass{
+public class CartDetail extends AbstractDomainClass{
 
 	@ManyToOne
+	@JsonBackReference
     private Cart cart;
 
     @OneToOne
