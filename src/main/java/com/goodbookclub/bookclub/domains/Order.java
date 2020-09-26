@@ -34,11 +34,12 @@ public class Order extends AbstractDomainClass{
 
 	@OneToOne
 	@ToString.Exclude
-	//When using Hibernate as JPA provider then @OnDelete delegates the delete operation on child entity
+	//When using Hibernate as JPA provider then @OnDelete delegates the delete operation on foreign key
     @OnDelete(action = OnDeleteAction.CASCADE)
 	private Customer customer;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "order", orphanRemoval = true)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	@ToString.Exclude
     private List<OrderDetails> orderDetails = new ArrayList<>();
 	

@@ -30,8 +30,8 @@ public class User extends AbstractDomainClass{
 	private String username;
 	
 	@Transient
-	@NotEmpty(message = "Password cannot be Empty")
-	@Size(min = 6, max = 12, message = "Password should be of size min 6 and max 12")
+//	@NotEmpty(message = "Password cannot be Empty")
+//	@Size(min = 6, max = 12, message = "Password should be of size min 6 and max 12")
 	private String password; 
 	private String encryptedpassword;
 	private boolean enabled = true;

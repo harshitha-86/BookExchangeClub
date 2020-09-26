@@ -20,7 +20,6 @@ import lombok.ToString;
 public class OrderDetails extends AbstractDomainClass {
 	
 	@ManyToOne
-	@OnDelete(action = OnDeleteAction.CASCADE)
     private Order order;
 
     @OneToOne
