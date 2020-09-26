@@ -11,6 +11,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.goodbookclub.bookclub.enums.OrderStatus;
 
 import lombok.EqualsAndHashCode;
@@ -31,6 +34,8 @@ public class Order extends AbstractDomainClass{
 
 	@OneToOne
 	@ToString.Exclude
+	//When using Hibernate as JPA provider then @OnDelete delegates the delete operation on child entity
+    @OnDelete(action = OnDeleteAction.CASCADE)
 	private Customer customer;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "order", orphanRemoval = true)

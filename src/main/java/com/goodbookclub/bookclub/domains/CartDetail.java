@@ -4,6 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.EqualsAndHashCode;
@@ -23,6 +26,7 @@ public class CartDetail extends AbstractDomainClass{
     private Cart cart;
 
     @OneToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Product product;
 
     private Integer quantity;
