@@ -78,8 +78,10 @@ public class UserServiceImpl implements UserService {
 		// update the user
 		user.setId(update.getId());
 		user.setUsername(update.getUsername());
-		user.setPassword(update.getPassword());
-		user.setEncryptedpassword(encryptionService.encryptString(update.getPassword()));
+		if(update.getPassword()!=null && !encryptionService.checkPassword(update.getPassword(), user.getEncryptedpassword())) {
+			user.setPassword(update.getPassword());
+			user.setEncryptedpassword(encryptionService.encryptString(update.getPassword()));
+		}
 		user.setRole(update.getRole());
 		user.setEnabled(update.isEnabled());
 		
