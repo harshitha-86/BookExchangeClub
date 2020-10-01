@@ -103,30 +103,35 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 		p1.setName("Laptop");
 		p1.setDescription("This is a laptop description");
 		p1.setImgUrl("images/laptop.png");
+		p1.setQuantity(10);
 		productService.saveOrUpdateProduct(p1);
 		
 		Product p2 = new Product();
 		p2.setName("Table");
 		p2.setDescription("This is a table description");
 		p2.setImgUrl("images/table.png");
+		p2.setQuantity(10);
 		productService.saveOrUpdateProduct(p2);
 		
 		Product p3 = new Product();
 		p3.setName("Chair");
 		p3.setDescription("This is a chair description");
 		p3.setImgUrl("images/chair.png");
+		p3.setQuantity(10);
 		productService.saveOrUpdateProduct(p3);
 		
 		Product p4 = new Product();
 		p4.setName("Mobile");
 		p4.setDescription("This is a mobile description");
 		p4.setImgUrl("images/mobile.png");
+		p4.setQuantity(10);
 		productService.saveOrUpdateProduct(p4);
 		
 		Product p5 = new Product();
 		p5.setName("Shirt");
 		p5.setDescription("This is a shirt description");
 		p5.setImgUrl("images/shirt.png");
+		p5.setQuantity(10);
 		productService.saveOrUpdateProduct(p5);
 		
 	}

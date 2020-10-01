@@ -2,6 +2,7 @@ package com.goodbookclub.bookclub.domains;
 
 import javax.persistence.Entity;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,5 +23,7 @@ public class Product extends AbstractDomainClass{
 	private String description;	
 	@NotEmpty
 	private String imgUrl;
+	@NotNull
+	private Integer quantity;
 
 }
