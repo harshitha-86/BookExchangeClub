@@ -8,6 +8,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.goodbookclub.bookclub.domains.Cart;
+import com.goodbookclub.bookclub.domains.CartDetail;
 import com.goodbookclub.bookclub.domains.User;
 import com.goodbookclub.bookclub.repositories.CartRepository;
 import com.goodbookclub.bookclub.repositories.CustomerRepository;
@@ -113,6 +115,22 @@ public class UserServiceImpl implements UserService {
 			cartRepository.delete(user.getCart());
 			userRepository.deleteById(id);
 		}
+	}
+
+	@Override
+	public List<CartDetail> getCartbyUser(Integer id) {
+
+		List<CartDetail> cartDetails = null;
+		User user = userRepository.findById(id).orElse(null);
+		if(user!=null) {
+			log.info("Cart Details for User with id: "+id+" being loaded");
+			Cart cart = user.getCart();
+			cartDetails = cart.getCartDetails();
+		}else {
+			log.error("User doesn't exist with id: "+id);
+		}
+		
+		return cartDetails;
 	}
 
 }

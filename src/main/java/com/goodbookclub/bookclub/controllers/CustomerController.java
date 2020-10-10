@@ -14,12 +14,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.goodbookclub.bookclub.domains.Customer;
+import com.goodbookclub.bookclub.domains.OrderDetails;
 import com.goodbookclub.bookclub.services.customer.CustomerService;
+import com.goodbookclub.bookclub.services.order.OrderService;
 
 @RestController
 public class CustomerController {
 
 	private CustomerService customerService;
+	private OrderService orderService;
+
+	@Autowired
+	public void setOrderService(OrderService orderService) {
+		this.orderService = orderService;
+	}
 
 	@Autowired
 	public void setCustomerService(CustomerService customerService) {
@@ -34,6 +42,11 @@ public class CustomerController {
 	@GetMapping("/customers/{id}")
 	public Customer getCustomer(@PathVariable Integer id) {
 		return customerService.getCustomerById(id);
+	}
+	
+	@GetMapping("/customers/{id}/orders")
+	public List<OrderDetails> getOrderDetail(@PathVariable Integer id){
+		return orderService.getOrders(customerService.getCustomerById(id));
 	}
 	
 	@PostMapping("/customers/new")

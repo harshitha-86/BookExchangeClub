@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.goodbookclub.bookclub.enums.OrderStatus;
 
 import lombok.EqualsAndHashCode;
@@ -41,6 +42,7 @@ public class Order extends AbstractDomainClass{
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "order", orphanRemoval = true)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@ToString.Exclude
+	@JsonIgnore
     private List<OrderDetails> orderDetails = new ArrayList<>();
 	
 	@Embedded

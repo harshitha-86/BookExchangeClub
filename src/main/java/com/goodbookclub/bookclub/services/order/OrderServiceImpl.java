@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.goodbookclub.bookclub.domains.Customer;
 import com.goodbookclub.bookclub.domains.Order;
+import com.goodbookclub.bookclub.domains.OrderDetails;
 import com.goodbookclub.bookclub.repositories.OrderRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -60,6 +62,18 @@ public class OrderServiceImpl implements OrderService {
 			log.info("Order deleted with order id: "+id);
 			orderRepository.deleteById(id);
 		}
+	}
+
+	@Override
+	public List<OrderDetails> getOrders(Customer customer) {
+		List<OrderDetails> orders = null;
+		if(customer!=null) {
+			Order order = orderRepository.findByCustomer(customer);
+			orders  = order.getOrderDetails();
+		}else {
+			log.error("Customer doesn't exist");
+		}
+		return orders;
 	}
 
 }

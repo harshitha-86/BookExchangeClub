@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.goodbookclub.bookclub.domains.CartDetail;
 import com.goodbookclub.bookclub.domains.User;
 import com.goodbookclub.bookclub.services.user.UserService;
 
@@ -37,6 +38,11 @@ public class UserController {
 	@GetMapping("/users/{id}")
 	public User getUser(@PathVariable Integer id) {
 		return userService.getUserById(id);
+	}
+	
+	@GetMapping("/users/{id}/cart")
+	public List<CartDetail> viewCart(@PathVariable Integer id){
+		return userService.getCartbyUser(id);
 	}
 	
 	@PostMapping("/users/new")
