@@ -1,6 +1,7 @@
 package com.goodbookclub.bookclub.bootstrap;
 
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -64,11 +65,13 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
 
         users.forEach(user -> {
         	Cart cart = user.getCart();
-        	cart.setUser(user);
         	
             CartDetail cartDetail = new CartDetail();
             cartDetail.setProduct(products.get(0));
             cartDetail.setQuantity(2);
+            String key = new Random().ints(97, 123).limit(8).collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                	      .toString();
+            cartDetail.setKey(key);
             
             cart.addCartDetail(cartDetail);
             
@@ -90,6 +93,7 @@ public class DevBootStrapData implements ApplicationListener<ContextRefreshedEve
                 OrderDetails orderDetail = new OrderDetails();
                 orderDetail.setProduct(product);
                 orderDetail.setQuantity(1);
+                
                 order.addToOrderDetails(orderDetail);
             });
             

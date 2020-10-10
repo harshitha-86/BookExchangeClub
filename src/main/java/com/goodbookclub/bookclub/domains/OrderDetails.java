@@ -28,4 +28,5 @@ public class OrderDetails extends AbstractDomainClass {
     private Product product;
 
     private Integer quantity;
+    
 }

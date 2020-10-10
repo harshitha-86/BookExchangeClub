@@ -30,4 +30,6 @@ public class CartDetail extends AbstractDomainClass{
     private Product product;
 
     private Integer quantity;
+    
+    private String key;
 }

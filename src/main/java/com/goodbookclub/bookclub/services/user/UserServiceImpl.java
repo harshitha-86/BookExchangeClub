@@ -2,6 +2,7 @@ package com.goodbookclub.bookclub.services.user;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.transaction.Transactional;
 
@@ -10,10 +11,13 @@ import org.springframework.stereotype.Service;
 
 import com.goodbookclub.bookclub.domains.Cart;
 import com.goodbookclub.bookclub.domains.CartDetail;
+import com.goodbookclub.bookclub.domains.Product;
 import com.goodbookclub.bookclub.domains.User;
 import com.goodbookclub.bookclub.repositories.CartRepository;
 import com.goodbookclub.bookclub.repositories.CustomerRepository;
+import com.goodbookclub.bookclub.repositories.ProductRepository;
 import com.goodbookclub.bookclub.repositories.UserRepository;
+import com.goodbookclub.bookclub.services.jms.SendOrderRequestService;
 import com.goodbookclub.bookclub.services.security.EncryptionService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +30,18 @@ public class UserServiceImpl implements UserService {
 	private CustomerRepository customerRepository;
 	private EncryptionService encryptionService;
 	private CartRepository cartRepository;
+	private ProductRepository productRepository;
+	private SendOrderRequestService sendOrderRequestService;
+
+	@Autowired
+	public void setSendOrderRequestService(SendOrderRequestService sendOrderRequestService) {
+		this.sendOrderRequestService = sendOrderRequestService;
+	}
+
+	@Autowired
+	public void setProductRepository(ProductRepository productRepository) {
+		this.productRepository = productRepository;
+	}
 
 	@Autowired
 	public void setCartRepository(CartRepository cartRepository) {
@@ -131,6 +147,52 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		return cartDetails;
+	}
+
+	@Override
+	public CartDetail addToCart(Integer id, Integer prodId, Integer quantity) {
+		
+		User user = userRepository.findById(id).orElse(null);
+		Product product = productRepository.findById(prodId).orElse(null);
+		CartDetail cartDetail = null;
+		if(user!=null && product!=null) {
+			cartDetail = new CartDetail();
+            cartDetail.setProduct(product);
+            cartDetail.setQuantity(quantity);
+            String key = new Random().ints(97, 123).limit(8).collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+          	      .toString();
+            cartDetail.setKey(key);
+            
+            Cart cart = user.getCart();
+            cart.addCartDetail(cartDetail);
+            cartRepository.save(cart);
+            log.info("Product "+prodId+" added to cart successfully!!!");
+		}else {
+			log.error("Either the user or the product doesn't exist.");
+		}
+		
+		return cartDetail;
+	}
+
+	@Override
+	public void placeOrder(Integer id, Integer prod, Integer quantity, String key) {
+		
+		Integer cust_id = (userRepository.findById(id).orElse(null)).getCustomer().getId();
+		sendOrderRequestService.sendOrderRequest(cust_id+" "+prod+" "+quantity);
+		
+		Cart cart = userRepository.findById(id).orElse(null).getCart();
+		CartDetail cd=null;
+		
+		for(CartDetail cartDetail: cart.getCartDetails()) {
+			if(cartDetail.getKey().equals(key)) {
+				cd = cartDetail;
+			}
+		}
+		if(cd!=null)
+			cart.removeCartDetail(cd);
+
+		cartRepository.save(cart);
+		
 	}
 
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.goodbookclub.bookclub.domains.CartDetail;
@@ -43,6 +44,19 @@ public class UserController {
 	@GetMapping("/users/{id}/cart")
 	public List<CartDetail> viewCart(@PathVariable Integer id){
 		return userService.getCartbyUser(id);
+	}
+	
+	@PostMapping("users/{id}/addToCart")
+	public List<CartDetail> addToCart(@PathVariable("id") Integer id, @RequestParam("product") Integer productId, @RequestParam("quantity") Integer quantity){
+		CartDetail cartDetail = userService.addToCart(id, productId, quantity);
+		return userService.getCartbyUser(id);
+	}
+	
+	@PostMapping("users/{id}/buy")
+	public void buyProduct(@PathVariable("id") Integer id, @RequestParam("product") Integer productId, @RequestParam("quantity") Integer quantity) {
+		
+		CartDetail cartDetail = userService.addToCart(id, productId, quantity);	
+		userService.placeOrder(id, productId, quantity, cartDetail.getKey());
 	}
 	
 	@PostMapping("/users/new")
