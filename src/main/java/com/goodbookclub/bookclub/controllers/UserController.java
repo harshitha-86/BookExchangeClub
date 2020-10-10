@@ -48,7 +48,7 @@ public class UserController {
 	
 	@PostMapping("users/{id}/addToCart")
 	public List<CartDetail> addToCart(@PathVariable("id") Integer id, @RequestParam("product") Integer productId, @RequestParam("quantity") Integer quantity){
-		CartDetail cartDetail = userService.addToCart(id, productId, quantity);
+		userService.addToCart(id, productId, quantity);
 		return userService.getCartbyUser(id);
 	}
 	
