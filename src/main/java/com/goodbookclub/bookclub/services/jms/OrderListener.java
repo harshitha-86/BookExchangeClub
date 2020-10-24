@@ -84,7 +84,8 @@ public class OrderListener {
 				String fname = cust.getFirstName();
 				String lname = cust.getLastName();
 				String email = cust.getEmail();
-				EmailContent content = new EmailContent(fname, lname, email, "Your order was placed successfully!!!");
+				String body = "Your order for "+quantity+" - "+prod.getName()+" was placed successfully!!!";
+				EmailContent content = new EmailContent(fname, lname, email, body);
 				kafkaTemplate.send(TOPIC, content);
 			}
 			orderDetails.setQuantity(quantity);
