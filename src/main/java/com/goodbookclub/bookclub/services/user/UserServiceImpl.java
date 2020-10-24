@@ -142,6 +142,7 @@ public class UserServiceImpl implements UserService {
 			log.info("Cart Details for User with id: "+id+" being loaded");
 			Cart cart = user.getCart();
 			cartDetails = cart.getCartDetails();
+			log.info("For user id: "+id+" total no. of cart items: "+cartDetails.size());
 		}else {
 			log.error("User doesn't exist with id: "+id);
 		}

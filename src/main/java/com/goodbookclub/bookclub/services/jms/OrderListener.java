@@ -1,15 +1,14 @@
 package com.goodbookclub.bookclub.services.jms;
 
-import java.util.List;
 import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-import com.goodbookclub.bookclub.domains.Cart;
-import com.goodbookclub.bookclub.domains.CartDetail;
 import com.goodbookclub.bookclub.domains.Customer;
+import com.goodbookclub.bookclub.domains.EmailContent;
 import com.goodbookclub.bookclub.domains.Order;
 import com.goodbookclub.bookclub.domains.OrderDetails;
 import com.goodbookclub.bookclub.domains.Product;
@@ -27,6 +26,13 @@ public class OrderListener {
 	private CustomerRepository customerRepository;
 	private OrderRepository orderRepository;
 	private ProductRepository productRepository;
+	private KafkaTemplate<String, EmailContent> kafkaTemplate;
+	private static final String TOPIC = "Kafka_Order_Email";
+
+	@Autowired
+	public void setKafkaTemplate(KafkaTemplate<String, EmailContent> kafkaTemplate) {
+		this.kafkaTemplate = kafkaTemplate;
+	}
 
 	@Autowired
 	public void setCustomerRepository(CustomerRepository customerRepository) {
@@ -51,7 +57,6 @@ public class OrderListener {
 		Integer cust_id = Integer.parseInt(st.nextToken());
 		Integer prod_id = Integer.parseInt(st.nextToken());
 		Integer quantity = Integer.parseInt(st.nextToken());
-//		Integer cartDetails_id = Integer.parseInt(st.nextToken());
 		
 		// create a new order for customer;
 		Customer cust = customerRepository.findById(cust_id).orElse(null);
@@ -59,8 +64,11 @@ public class OrderListener {
 		int limit =  prod.getQuantity();
 		
 		if(cust!=null && prod!=null) {
-			Order orderr = new Order();
-			orderr.setCustomer(cust);
+			Order orderr = orderRepository.findByCustomer(cust);
+			if(orderr==null) {
+				orderr = new Order();
+				orderr.setCustomer(cust);
+			}
 			orderr.setOrderStatus(OrderStatus.NEW);
 			orderr.setShipToAddress(cust.getAddress());
 			
@@ -69,21 +77,19 @@ public class OrderListener {
 			if(limit<quantity) {
 				log.error("quntity exceeded the available product limit.");
 				orderr.setOrderStatus(OrderStatus.FAILED);
-			}else
+			}else {
+				prod.setQuantity(limit-quantity);
+				productRepository.save(prod);
 				log.info("order placed !!!");
-			
+				String fname = cust.getFirstName();
+				String lname = cust.getLastName();
+				String email = cust.getEmail();
+				EmailContent content = new EmailContent(fname, lname, email, "Your order was placed successfully!!!");
+				kafkaTemplate.send(TOPIC, content);
+			}
 			orderDetails.setQuantity(quantity);
 			orderr.addToOrderDetails(orderDetails);
 			orderRepository.save(orderr);
-			
-			//Remove the cart details
-//			Cart cart = cust.getUser().getCart();
-//			List<CartDetail> cartDetails = cart.getCartDetails();
-//			for(CartDetail cd: cartDetails) {
-//				if(cd.getId()==cartDetails_id) {
-//					cart.removeCartDetail(cd);
-//				}
-//			}
 			
 		}
 	}

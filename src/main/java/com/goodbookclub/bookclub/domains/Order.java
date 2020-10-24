@@ -11,6 +11,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -40,6 +42,7 @@ public class Order extends AbstractDomainClass{
 	private Customer customer;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "order", orphanRemoval = true)
+	@LazyCollection(LazyCollectionOption.FALSE) // If you have more then one list to Fetch.EAGER then remove the fetech type from @*ToMany and add this annotation.
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@ToString.Exclude
 	@JsonIgnore

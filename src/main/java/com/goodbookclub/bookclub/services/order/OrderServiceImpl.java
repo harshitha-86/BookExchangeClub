@@ -70,6 +70,7 @@ public class OrderServiceImpl implements OrderService {
 		if(customer!=null) {
 			Order order = orderRepository.findByCustomer(customer);
 			orders  = order.getOrderDetails();
+			log.info("For customer id: "+customer.getId()+" total number of order: "+orders.size());
 		}else {
 			log.error("Customer doesn't exist");
 		}
