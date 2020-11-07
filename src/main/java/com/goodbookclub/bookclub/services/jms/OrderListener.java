@@ -27,7 +27,7 @@ public class OrderListener {
 	private OrderRepository orderRepository;
 	private ProductRepository productRepository;
 	private KafkaTemplate<String, EmailContent> kafkaTemplate;
-	private static final String TOPIC = "Kafka_Order_Email";
+	private static final String TOPIC = "Order_Emails";
 
 	@Autowired
 	public void setKafkaTemplate(KafkaTemplate<String, EmailContent> kafkaTemplate) {
