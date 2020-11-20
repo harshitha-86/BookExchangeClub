@@ -1,0 +1,9 @@
+#we use Java
+language: java
+
+#we add the jdk version used
+jdk:
+- openjdk14
+
+script:
+- ./mvnw clean install -B
