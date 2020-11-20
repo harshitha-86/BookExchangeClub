@@ -33,6 +33,5 @@ build/
 .vscode/
 
 ### Eclipse ####
-/.mvn/
 /.settings/
 /bin/
