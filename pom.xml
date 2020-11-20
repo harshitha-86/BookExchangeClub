@@ -16,6 +16,11 @@
 
 	<properties>
 		<java.version>14</java.version>
+		<!-- property useful for  spotify's dockerfile-maven-plugin -->
+		<!-- Instead of "shashank136", please add your Docker Hub username -->		
+		<docker.image.prefix>shashank136</docker.image.prefix>
+		<!-- how to skip docker in maven from my computer -->
+		<maven.deploy.skip>true</maven.deploy.skip>
 	</properties>
 
 	<dependencies>

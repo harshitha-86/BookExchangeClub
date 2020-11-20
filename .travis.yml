@@ -10,7 +10,7 @@ services:
 
 before_install:
   - chmod +x mvnw
-  #- echo "$DOCKER_PASSWORD" | docker login  -u "$DOCKER_USERNAME" --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login  -u "$DOCKER_USERNAME" --password-stdin
   - docker pull openjdk:14-jdk-alpine
   
 script:
