@@ -48,7 +48,7 @@ I've implemented following features of Spring Framework 5:
 * Spring Core
 * Spring java configuration
 * Spring MVC
-* Spring Email
+* [Spring Email](https://github.com/shashank136/BookExchangeClub-EmailApplication)
 * Spring Data JPA
 * Command Object
 * Spring Security
