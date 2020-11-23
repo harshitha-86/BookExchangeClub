@@ -67,83 +67,89 @@ Messaging service implemented between services in a same application and between
 ## API Reference
 The REST API details:
 ###### for Users
-* Get the list of Users
+* Get the list of Users:
 `GET /users`
-* Get a specific user
+* Get a specific user: 
 `GET /users/{id}`
-* Add a new user
+* Add a new user: 
 `POST /users/new`
-     > Request Body
-{
-    "username": "dummyUdser",
-    "password": "Password",
-    "role": "USER",
-    "customer": {
-            "firstName": "DummyFirstName",
-            "lastName": "DummyLastName",
-            "email": "dummyEmailid@gmail.com",
-            "phoneNumber": "9999999999",
-            "address": {
-                "line1": "dummy first line",
-                "line2": "dummy second line",
-                "city": "dummy city",
-                "state": "dummy state",
-                "zipcode": "000000"
-            }
-        }
+    > Request Body
+    ```yml
+    {
+          "username": "dummyUdser",
+          "password": "Password",
+          "role": "USER",
+          "customer": {
+                 "firstName": "DummyFirstName",
+                 "lastName": "DummyLastName",
+                 "email": "dummyEmailid@gmail.com",
+                 "phoneNumber": "9999999999",
+                 "address": {
+                     "line1": "dummy first line",
+                     "line2": "dummy second line",
+                     "city": "dummy city",
+                     "state": "dummy state",
+                     "zipcode": "000000"
+                    }       
+          } 
     }
+    ```
 
-* Edit user details
+* Edit user details:
 `PUT /users/edit/{id}`
     > Request body same as 'add new user'
-* Delete a user
+* Delete a user: 
 `DELETE /users/delete/{id}`
-* Get list of items specific user's cart
+* Get list of items specific user's cart:
 `GET /users/{id}/cart`
-* Add a item to user's cart
+* Add a item to user's cart:
 `POST /users/{id}/addToCart?product={product_id}`
-* User buy a product
+* User buy a product:
 `POST /users/{id}/buy?product={productId}&quantity={quantity}`
 
 ###### for Customers
-* Get list of Customer
+* Get list of Customer: 
 `GET /customers/`
-* Get a Customer
+* Get a Customer:
 `GET /customers/{id}`
-* Add a new customer
+* Add a new customer:
 `POST /customers/new`
     > Request Body
+    ```yml
     {
         "firstName": "demofirstName",
         "lastName": "demoLastName",
         "email": "demoEmail@gmail.com",
         "phoneNumber": "999999999"
     }
-* Edit a Customer
+    ```
+* Edit a Customer:
 `PUT /customers/edit/{id}`
     > Request Body same as "Add new customer"
-* Delete a Customer
+* Delete a Customer:
 `DELETE /customers/delete/{id}`
-* Get Order of a customer
+* Get Order of a customer:
 `GET /customers/{id}/orders`
 ###### for Products
-* Get list of products
+* Get list of products: 
 `GET /products/`
-* Get a product details
+* Get a product details: 
 `GET /products/{id}`
-* Add a new product
+* Add a new product: 
 `POST /products/new`
     > Request Body
+    ```yml
     {
         name: "demoProductName"
         description: "demoDescription"
         imgUrl: "demoURL"
         quantity: "quantity"
     }
-* Edit a product details
+    ```
+* Edit a product details: 
 `PUT /products/edit/{id}`
     > Request Body same as "Add new product"
-* Delete a product
+* Delete a product: 
 `DELETE /products/delete/{id}`
 ## How to use?
 
