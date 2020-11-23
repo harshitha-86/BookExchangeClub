@@ -71,5 +71,15 @@ Messaging service implemented between services in a same application and between
 
 ## UML diagrams
 
-You can render UML diagrams using [Mermaid](https://mermaidjs.github.io/).
+Following are the entities in the project:
+* User
+* Customer
+* Product
+* Cart
+* Cart Details
+* Order
+* Order Details
+
+![UML Diagram](https://github.com/shashank136/BookExchangeClub/blob/master/resources/Database%20ER%20diagram.png)
+
 
