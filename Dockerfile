@@ -1,20 +1,19 @@
-# Start with a base image containing java runtime
-FROM openjdk:14-jdk-alpine
+# syntax=docker/dockerfile:1
 
-#Add Maintainer info
-LABEL maintainer="shashank136.sk@gmail.com"
+FROM eclipse-temurin:17-jdk-jammy
 
-# Add a volume pointing to /tmp
-VOLUME /tmp
+WORKDIR /app
 
-# Make port 8080 available to the world outside this container
-EXPOSE 8080
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
 
-# The application's jar file
-ARG JAR_FILE
+RUN apt-get update && apt-get install -y dos2unix && \
+    dos2unix mvnw && \
+    chmod +x mvnw && \
+    rm -rf /var/lib/apt/lists/*
 
-# Add the application's jar to the container
-ADD ${JAR_FILE} /app.jar
+ENV PATH="/app:${PATH}"
 
-# Run the jar file
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+COPY src ./src
+
+CMD ["/app/mvnw", "spring-boot:run"]

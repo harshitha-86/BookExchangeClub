@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.goodbookclub.bookclub.domains.Product;
 import com.goodbookclub.bookclub.repositories.ProductRepository;
-import com.goodbookclub.bookclub.services.jms.SendTextMessageService;
+// import com.goodbookclub.bookclub.services.jms.SendTextMessageService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,12 +17,12 @@ import lombok.extern.slf4j.Slf4j;
 public class ProductServiceImpl implements ProductService {
 	
 	private ProductRepository productRepository;
-	private SendTextMessageService sendTextMessageService;
+	// private SendTextMessageService sendTextMessageService;
 
-	@Autowired
-	public void setSendTextMessageService(SendTextMessageService sendTextMessageService) {
-		this.sendTextMessageService = sendTextMessageService;
-	}
+	// @Autowired
+	// public void setSendTextMessageService(SendTextMessageService sendTextMessageService) {
+	// 	this.sendTextMessageService = sendTextMessageService;
+	// }
 
 	@Autowired
 	public void setProductRepository(ProductRepository productRepository) {
@@ -33,14 +33,14 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> listOfProducts() {
 		List<Product> products = new ArrayList<>();
 		productRepository.findAll().forEach(products::add);
-		sendTextMessageService.sendTextMessage("Listing products");
+		// sendTextMessageService.sendTextMessage("Listing products");
 		log.info("Total no. of products: "+products.size());
 		return products;
 	}
 
 	@Override
 	public Product findProductById(Integer id) {
-		sendTextMessageService.sendTextMessage("Requested product id: "+id);
+		// sendTextMessageService.sendTextMessage("Requested product id: "+id);
 		Product product = productRepository.findById(id).orElse(null);
 		if(product==null) {
 			log.error("Product doesn't exist with id: "+id);
@@ -53,10 +53,10 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Product saveOrUpdateProduct(Product product) {
 		if(product.getId()==null) {
-			sendTextMessageService.sendTextMessage("New product added");
+			// sendTextMessageService.sendTextMessage("New product added");
 			log.info("Product saved: "+product);
 		}else {
-			sendTextMessageService.sendTextMessage("product details updated for id: "+product.getId());
+			// sendTextMessageService.sendTextMessage("product details updated for id: "+product.getId());
 			log.info("Product updated: "+product);
 		}
 		return productRepository.save(product);
@@ -64,7 +64,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public void deleteProduct(Integer id) {
-		sendTextMessageService.sendTextMessage("Request to delete product id: "+id);
+		// sendTextMessageService.sendTextMessage("Request to delete product id: "+id);
 		Product product = productRepository.findById(id).orElse(null);
 		if(product==null)
 			log.error("Product doesn't exist with id: "+id);

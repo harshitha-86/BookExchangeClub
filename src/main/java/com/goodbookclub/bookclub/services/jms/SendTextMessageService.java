@@ -1,6 +1,6 @@
-package com.goodbookclub.bookclub.services.jms;
+// package com.goodbookclub.bookclub.services.jms;
 
-public interface SendTextMessageService {
+// public interface SendTextMessageService {
 
-	void sendTextMessage(String msg);
-}
+// 	void sendTextMessage(String msg);
+// }

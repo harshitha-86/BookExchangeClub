@@ -1,6 +1,7 @@
 package com.goodbookclub.bookclub.services.jms;
 
-import javax.jms.Queue;
+import jakarta.jms.Queue;
+import jakarta.jms.Destination;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
@@ -24,7 +25,8 @@ public class SendOrderRequestServiceImpl implements SendOrderRequestService {
 
 	@Override
 	public void sendOrderRequest(String order) {
-		this.jmsTemplate.convertAndSend(this.orderRequestQueue, order);
+		Destination destination = (Destination) this.orderRequestQueue;
+		this.jmsTemplate.convertAndSend(destination, order);
 	}
 
 }
