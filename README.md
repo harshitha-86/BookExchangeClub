@@ -1,5 +1,5 @@
 # Book Exchange Club
-Online platform to support buy books and exchange books among friends and strangers. Has provision of Book shop as well. 
+Online platform to support buy books and exchange books among friends and strangers. Has provision of Book shop as well.    
 
 ## Build Status
 
